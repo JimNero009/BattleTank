@@ -15,3 +15,16 @@ void ATankPlayerController::BeginPlay() {
 		UE_LOG(LogTemp, Warning, TEXT("Tank not possessed"));
 	}
 }
+
+void ATankPlayerController::Tick(float DeltaTime) {
+	Super::Tick(DeltaTime);
+	AimTowardsCrosshair();
+}
+
+// moves the tank's barrel towards crosshair s.t. a shot will hit where the crosshair aims
+void ATankPlayerController::AimTowardsCrosshair() {
+	if (!GetControlledTank()) { return; }
+	// Get player's space location
+	// Move barrel towards 
+	return;
+}
