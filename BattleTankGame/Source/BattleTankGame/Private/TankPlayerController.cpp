@@ -29,7 +29,7 @@ void ATankPlayerController::AimTowardsCrosshair() {
 	if (!GetControlledTank()) { return; }
 	FVector HitLocation; // Out paramter
 	if (GetSightRayHitLocation(OUT HitLocation)) { // has side effect, raytraces and sets the vector
-		
+		GetControlledTank()->AimAt(HitLocation);
 	// Get player's space location
 	// Move barrel towards 
 	}
@@ -46,7 +46,7 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& OUT OutHitLocation) 
 	FVector RaycastDirection;
 	if (GetLookDirection(ScreenLocation, RaycastDirection)) {
 		GetLookVectorHitLocation(RaycastDirection, OUT OutHitLocation);
-		UE_LOG(LogTemp, Warning, TEXT("HitLocation at %s"),*OutHitLocation.ToString());
+		//UE_LOG(LogTemp, Warning, TEXT("HitLocation at %s"),*OutHitLocation.ToString());
 	}
 	
 	// line trace along that direction

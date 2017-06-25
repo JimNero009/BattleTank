@@ -11,6 +11,11 @@ ATank::ATank()
 
 }
 
+void ATank::AimAt(FVector OutHitLocation) {
+	UE_LOG(LogTemp, Warning, TEXT("%s is aiming at at %s"),*GetName(), *OutHitLocation.ToString());
+	return;
+}
+
 // Called when the game starts or when spawned
 void ATank::BeginPlay()
 {
