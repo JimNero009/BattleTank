@@ -7,6 +7,8 @@
 #include "GameFramework/PlayerController.h"
 #include "TankPlayerController.generated.h"
 
+#define OUT
+
 /**
  * 
  */
@@ -21,4 +23,14 @@ private:
 	virtual void BeginPlay() override;
 	virtual void Tick(float) override;
 	void AimTowardsCrosshair();
+	bool GetLookDirection(FVector2D ScreenLocation, FVector & RaycastDirection) const;
+	bool GetLookVectorHitLocation(FVector, FVector&) const;
+	bool GetSightRayHitLocation(FVector&) const;
+
+	UPROPERTY(EditAnywhere)
+	float CrosshairXPosition = 0.5;
+	UPROPERTY(EditAnywhere)
+	float CrosshairYPosition = 0.33333;
+	UPROPERTY(EditAnywhere)
+	float LineTraceRange = 1000000.f;
 };
