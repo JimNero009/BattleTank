@@ -2,6 +2,7 @@
 
 #include "TankPlayerController.h"
 #include "GameFramework/Controller.h"
+#include "Tank.h"
 #include "Engine/World.h"
 
 #define OUT
