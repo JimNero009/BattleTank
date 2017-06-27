@@ -15,7 +15,7 @@ ATank::ATank()
 
 void ATank::AimAt(FVector OutHitLocation) {
 	if (TankAimingComponent) {
-		TankAimingComponent->AimAt(OutHitLocation);
+		TankAimingComponent->AimAt(OutHitLocation, FireSpeed);
 	}
 	return;
 }

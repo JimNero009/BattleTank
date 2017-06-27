@@ -34,6 +34,9 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	
+private:
+
+	UPROPERTY(EditAnywhere, Category = Firing)
+	float FireSpeed = 100000; // random guess, can be changed from BP editor TODO find sensible default
 	
 };
