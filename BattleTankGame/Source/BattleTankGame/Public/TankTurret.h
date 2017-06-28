@@ -18,7 +18,7 @@ public:
 	void RotateAroundZ(float RelativeSpeed); // -1 is max left, +1 is max right
 
 private:
-	UPROPERTY(EditAnywhere, Category = Setup)
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	float MaxDegreesPerSecond = 30;
 
 };
