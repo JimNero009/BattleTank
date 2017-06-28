@@ -9,6 +9,7 @@
 class UTankAimingComponent;
 class UTankBarrel;
 class UTankTurret;
+class AProjectile;
 UCLASS()
 class BATTLETANKGAME_API ATank : public APawn
 {
@@ -26,6 +27,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetTurretReference(UTankTurret* TurretToSet);
 
+	UFUNCTION(BlueprintCallable)
+	void Fire();
+
 protected:
 
 	UTankAimingComponent* TankAimingComponent = nullptr;
@@ -39,5 +43,10 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = Firing)
 	float FireSpeed = 100000; // random guess, can be changed from BP editor TODO find sensible default
+
+	UPROPERTY(EditAnywhere, Category = Setup)
+	TSubclassOf<AProjectile> ProjectileBlueprint;
+
+	UTankBarrel* Barrel = nullptr;
 	
 };
