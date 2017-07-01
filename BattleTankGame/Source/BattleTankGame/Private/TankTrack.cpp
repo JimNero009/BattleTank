@@ -4,7 +4,6 @@
 
 void UTankTrack::SetThrottle(float Throttle) {
 	Throttle = FMath::Clamp<float>(Throttle, -1, 1);
-	UE_LOG(LogTemp, Warning, TEXT("%s has throttle of %f"), *GetName(), Throttle);
 	auto ForceApplied = GetForwardVector() * Throttle * TrackMaxForce;
 	auto ForceLocation = GetComponentLocation();
 	auto TankRoot = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());
