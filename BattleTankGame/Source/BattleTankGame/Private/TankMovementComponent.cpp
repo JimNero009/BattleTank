@@ -3,16 +3,28 @@
 #include "TankMovementComponent.h"
 #include "TankTrack.h"
 
+void UTankMovementComponent::Initialise(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet) {
+	
+	LeftTrack = LeftTrackToSet;
+	RightTrack = RightTrackToSet;
+
+}
+
 void UTankMovementComponent::IntendMoveForward(float Throw) const {
-	UE_LOG(LogTemp, Warning, TEXT("IntendMoveForward: %f"), Throw);
+
+	if (!LeftTrack || !RightTrack) { return; }
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(Throw);
 	
 }
 
-void UTankMovementComponent::Initialise(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet) {
-	if (!LeftTrackToSet || !RightTrackToSet) { return;  }
-	LeftTrack = LeftTrackToSet;
-	RightTrack = RightTrackToSet;
-	// TODO stop user from using both inputs to double the speed
+void UTankMovementComponent::IntendRotateClockwise(float Throw) const {
+
+	if (!LeftTrack || !RightTrack) { return; }
+	LeftTrack->SetThrottle(Throw);
+	RightTrack->SetThrottle(-Throw);
+
 }
+
+
+
