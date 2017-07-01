@@ -27,7 +27,11 @@ void UTankMovementComponent::IntendRotateClockwise(float Throw) const {
 }
 
 void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, bool bForceMaxSpeed) {
+	auto AIForwardIntention = MoveVelocity.GetSafeNormal();
+	auto TankForward = (GetOwner()->GetActorForwardVector()).GetSafeNormal();
+	auto CosTheta = FVector::DotProduct(AIForwardIntention, TankForward);
 	UE_LOG(LogTemp, Warning, TEXT("%s vectoring to %s"), *GetOwner()->GetName(), *MoveVelocity.ToString())
+	IntendMoveForward(CosTheta);
 }
 
 
