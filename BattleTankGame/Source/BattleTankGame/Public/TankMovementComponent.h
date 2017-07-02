@@ -27,11 +27,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Input)
 	void IntendRotateClockwise(float Throw) const;
 
-	// check best protection
-	virtual void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
-
 private:
 	UTankTrack* LeftTrack = nullptr;
 	UTankTrack* RightTrack = nullptr;
-	
+	// called from ppathfinding logic on AI controllers
+	virtual void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
 };
