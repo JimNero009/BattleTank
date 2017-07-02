@@ -5,6 +5,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "TankBarrel.h"
 #include "TankTurret.h"
+#include "Projectile.h"
 
 #define OUT
 
@@ -15,10 +16,6 @@ UTankAimingComponent::UTankAimingComponent()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true; // TODO does this need to tick?
 
-	//Barrel = GetOwner()->GetComponentByClass<UTankBarrel>();
-	//Turret = GetOwner()->GetComponentByClass<UTankTurret>();
-
-	// ...
 }
 
 void UTankAimingComponent::Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet) {
@@ -27,19 +24,14 @@ void UTankAimingComponent::Initialise(UTankBarrel* BarrelToSet, UTankTurret* Tur
 }
 
 void UTankAimingComponent::AimAt(FVector OutHitLocation) {	
-	//UE_LOG(LogTemp, Warning, TEXT("AimAt called!"));
 	if (!ensure(Barrel)) { return; }	
 	if (!ensure(Turret)) { return; }
 	
 	FVector LaunchVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName("FirePoint"));
-	//UE_LOG(LogTemp, Warning, TEXT("Start location is %s"), *StartLocation.ToString())
 	// Calculate the LaunchVelocity
 	if (UGameplayStatics::SuggestProjectileVelocity(this, OUT LaunchVelocity, StartLocation, OutHitLocation, FireSpeed, false, 0, 0, ESuggestProjVelocityTraceOption::DoNotTrace)) {
 		auto AimDirection = LaunchVelocity.GetSafeNormal();
-		//UE_LOG(LogTemp, Warning, TEXT("%s is aiming at %s from %s, firing at %f"), *(GetOwner()->GetName()), *OutHitLocation.ToString(), *Barrel->GetComponentLocation().ToString(), Speed);
-		//UE_LOG(LogTemp, Warning, TEXT("Aiming vector is %s"), *AimDirection.ToString());
-		//UE_LOG(LogTemp, Warning, TEXT("Solution found! Calling MoveBarrel."));
 		MoveBarrelTowards(AimDirection);
 	}
 	return;
@@ -53,5 +45,17 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection) {
 	auto DeltaRotator = AimAsRotator - BarrelRotator;
 	Barrel->Elevate(DeltaRotator.Pitch);
 	Turret->RotateAroundZ(DeltaRotator.Yaw);
+}
+
+void UTankAimingComponent::Fire() {
+
+	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
+	if (!ensure(Barrel && ProjectileBlueprint)) { return; }
+	if (isReloaded) {
+		//Spawn projectile at socket location
+		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("FirePoint")), Barrel->GetSocketRotation(FName("FirePoint")));
+		Projectile->Launch(FireSpeed); // TODO fix
+		LastFireTime = FPlatformTime::Seconds();
+	}
 }
 
