@@ -69,6 +69,8 @@ void UTankAimingComponent::Fire() {
 	}
 }
 
+EFiringStatus UTankAimingComponent::GetCurrentStatus() const { return CurrentState; }
+
 bool UTankAimingComponent::IsBarrelMoving() {
 	if (!ensure(Barrel)) { return false; }
 	return !(AimDirection.FVector::Equals(Barrel->GetForwardVector(), 0.01f));
