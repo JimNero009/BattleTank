@@ -19,5 +19,5 @@ private:
 	virtual void Tick(float) override;
 	ATank* GetPlayerTank() const;
 	
-	float AcceptanceRadius = 1; // how close can the AI tank get to the player?
+	float AcceptanceRadius = 300; // how close can the AI tank get to the player?
 };

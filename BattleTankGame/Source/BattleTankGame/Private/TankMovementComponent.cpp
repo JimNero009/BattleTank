@@ -30,8 +30,11 @@ void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, boo
 	auto AIForwardIntention = MoveVelocity.GetSafeNormal();
 	auto TankForward = (GetOwner()->GetActorForwardVector()).GetSafeNormal();
 	auto CosTheta = FVector::DotProduct(AIForwardIntention, TankForward);
-	UE_LOG(LogTemp, Warning, TEXT("%s vectoring to %s"), *GetOwner()->GetName(), *AIForwardIntention.ToString())
+	//auto SinTheta = FMath::Sqrt(1 - CosTheta*CosTheta);
+	auto SinTheta = FVector::CrossProduct(TankForward,AIForwardIntention).Z;
+	//UE_LOG(LogTemp, Warning, TEXT("%s vectoring to %s"), *GetOwner()->GetName(), *AIForwardIntention.ToString())
 	IntendMoveForward(CosTheta);
+	IntendRotateClockwise(SinTheta);
 }
 
 
