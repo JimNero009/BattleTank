@@ -2,6 +2,10 @@
 
 #include "TankTrack.h"
 
+UTankTrack::UTankTrack() {
+	PrimaryComponentTick.bCanEverTick = true;
+}
+
 void UTankTrack::SetThrottle(float Throttle) {
 	Throttle = FMath::Clamp<float>(Throttle, -1, 1);
 	auto ForceApplied = GetForwardVector() * Throttle * TrackMaxForce;
@@ -11,4 +15,14 @@ void UTankTrack::SetThrottle(float Throttle) {
 	TankRoot->AddForceAtLocation(ForceApplied, ForceLocation);
 }
 
+void UTankTrack::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction) {
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	// Calculate slip speed
+	auto SlipSpeed = FVector::DotProduct(GetComponentVelocity(), GetRightVector());
+	// Work out accleration and apply force
+	auto CorrectingAcceleration = - SlipSpeed / DeltaTime * GetRightVector();
+	auto TankRoot = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());
+	auto CorrectionForce = TankRoot->GetMass() * CorrectingAcceleration / 2.0f;
+	TankRoot->AddForce(CorrectionForce);
+}
 

@@ -20,7 +20,7 @@ void ATankPlayerController::Tick(float DeltaTime) {
 
 // moves the tank's barrel towards crosshair s.t. a shot will hit where the crosshair aims
 void ATankPlayerController::AimTowardsCrosshair() {
-	if (!ensure(GetPawn())) { return; }
+	if (!GetPawn()) { return; }
 	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(AimingComponent)) { return; }
 	FVector HitLocation; // Out paramter

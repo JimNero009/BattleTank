@@ -70,6 +70,7 @@ bool UTankAimingComponent::IsBarrelMoving() {
 }
 
 void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction) {
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds) {
 		CurrentState = EFiringStatus::Reloading;
 	} else if (IsBarrelMoving()) {
