@@ -20,14 +20,17 @@ public:
 
 	UTankTrack();
 
-	
-
 private:
 
 	// max force per track in Newtons
 	UPROPERTY(EditDefaultsOnly)
 	float TrackMaxForce = 40000 * 2.7; // 2.7 m/s^2 acleration
 	
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor, UPrimitiveComponent * OtherComponent, FVector NormalImpulse, const FHitResult & Hit);
+
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction) override;
+
+	virtual void BeginPlay() override;
 
 };

@@ -6,6 +6,11 @@ UTankTrack::UTankTrack() {
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
+void UTankTrack::BeginPlay() {
+	Super::BeginPlay();
+	OnComponentHit.AddDynamic(this, &UTankTrack::OnHit);
+}
+
 void UTankTrack::SetThrottle(float Throttle) {
 	Throttle = FMath::Clamp<float>(Throttle, -1, 1);
 	auto ForceApplied = GetForwardVector() * Throttle * TrackMaxForce;
@@ -13,6 +18,10 @@ void UTankTrack::SetThrottle(float Throttle) {
 	auto TankRoot = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());
 	if (!ensure(TankRoot)) { return; }
 	TankRoot->AddForceAtLocation(ForceApplied, ForceLocation);
+}
+
+void UTankTrack::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit) {
+	UE_LOG(LogTemp, Warning, TEXT("OnHit called!"));
 }
 
 void UTankTrack::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction) {
