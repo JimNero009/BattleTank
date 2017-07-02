@@ -34,8 +34,8 @@ void UTankAimingComponent::AimAt(FVector OutHitLocation) {
 	FVector LaunchVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName("FirePoint"));
 	// Calculate the LaunchVelocity
-	if (UGameplayStatics::SuggestProjectileVelocity(this, OUT LaunchVelocity, StartLocation, OutHitLocation, FireSpeed, false, 0, 0, ESuggestProjVelocityTraceOption::DoNotTrace)) {
-		auto AimDirection = LaunchVelocity.GetSafeNormal();
+	if (UGameplayStatics::SuggestProjectileVelocity(this, OUT LaunchVelocity, StartLocation, OutHitLocation, FireSpeed, false, 0, 0, ESuggestProjVelocityTraceOption::DoNotTrace)) { // TODO double-check this
+		AimDirection = LaunchVelocity.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
 	}
 	return;
@@ -59,13 +59,23 @@ void UTankAimingComponent::Fire() {
 		//Spawn projectile at socket location
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("FirePoint")), Barrel->GetSocketRotation(FName("FirePoint")));
 		Projectile->Launch(FireSpeed); 
-		
+		LastFireTime = FPlatformTime::Seconds();
 	}
 }
 
+bool UTankAimingComponent::IsBarrelMoving() {
+	if (!ensure(Barrel)) { return false; }
+	return !(AimDirection.FVector::Equals(Barrel->GetForwardVector(), 0.01f));
+	//return true;
+}
+
 void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction) {
-	if ((FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds) {
+	if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds) {
 		CurrentState = EFiringStatus::Reloading;
-	} // TODO handle all other states
+	} else if (IsBarrelMoving()) {
+		CurrentState = EFiringStatus::Aiming;
+	} else {
+		CurrentState = EFiringStatus::Locked;
+	}
 }
 
