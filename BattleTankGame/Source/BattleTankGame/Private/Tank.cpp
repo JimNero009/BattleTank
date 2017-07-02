@@ -14,16 +14,20 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 
 	//TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
+	
 	//TankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("Movement Component"));
 }
 
 void ATank::BeginPlay() {
 	Super::BeginPlay();
+	TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
 }
 
 void ATank::AimAt(FVector OutHitLocation) {
+
 	if (!ensure(TankAimingComponent)) { return; }
 	TankAimingComponent->AimAt(OutHitLocation, FireSpeed);
+	//UE_LOG(LogTemp, Warning, TEXT("AimAt called from Tank"));
 	return;
 }
 

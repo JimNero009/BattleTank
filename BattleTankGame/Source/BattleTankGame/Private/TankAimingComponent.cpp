@@ -15,6 +15,9 @@ UTankAimingComponent::UTankAimingComponent()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true; // TODO does this need to tick?
 
+	//Barrel = GetOwner()->GetComponentByClass<UTankBarrel>();
+	//Turret = GetOwner()->GetComponentByClass<UTankTurret>();
+
 	// ...
 }
 
@@ -23,16 +26,20 @@ void UTankAimingComponent::Initialise(UTankBarrel* BarrelToSet, UTankTurret* Tur
 	Turret = TurretToSet;
 }
 
-void UTankAimingComponent::AimAt(FVector OutHitLocation, float Speed) {
-	if (!ensure(Barrel)) { return; }
-	if (!ensure(Turret)) { return; }
+void UTankAimingComponent::AimAt(FVector OutHitLocation, float Speed) {	
+	//UE_LOG(LogTemp, Warning, TEXT("AimAt called!"));
+	//if (!ensure(Barrel)) { return; }	
+	//if (!ensure(Turret)) { return; }
+	
 	FVector LaunchVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName("FirePoint"));
+	//UE_LOG(LogTemp, Warning, TEXT("Start location is %s"), *StartLocation.ToString())
 	// Calculate the LaunchVelocity
 	if (UGameplayStatics::SuggestProjectileVelocity(this, OUT LaunchVelocity, StartLocation, OutHitLocation, Speed, false, 0, 0, ESuggestProjVelocityTraceOption::DoNotTrace)) {
 		auto AimDirection = LaunchVelocity.GetSafeNormal();
 		//UE_LOG(LogTemp, Warning, TEXT("%s is aiming at %s from %s, firing at %f"), *(GetOwner()->GetName()), *OutHitLocation.ToString(), *Barrel->GetComponentLocation().ToString(), Speed);
 		//UE_LOG(LogTemp, Warning, TEXT("Aiming vector is %s"), *AimDirection.ToString());
+		//UE_LOG(LogTemp, Warning, TEXT("Solution found! Calling MoveBarrel."));
 		MoveBarrelTowards(AimDirection);
 	}
 	return;

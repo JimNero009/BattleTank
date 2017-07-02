@@ -36,6 +36,7 @@ protected:
 
 private:
 
+	// TODO remove this 
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float FireSpeed = 4000; // random guess, can be changed from BP editor TODO find sensible default
 
