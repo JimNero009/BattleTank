@@ -4,7 +4,7 @@
 #include "Engine/World.h"
 
 UTankTrack::UTankTrack() {
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = false;
 }
 
 void UTankTrack::BeginPlay() {
@@ -22,13 +22,13 @@ void UTankTrack::DriveTrack() {
 	auto TankRoot = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());
 	if (!ensure(TankRoot)) { return; }
 	TankRoot->AddForceAtLocation(ForceApplied, ForceLocation);
-	UE_LOG(LogTemp, Warning, TEXT("Added force %s to tank"), *ForceApplied.ToString());
+	//UE_LOG(LogTemp, Warning, TEXT("Added force %s to tank"), *ForceApplied.ToString());
 	CurrentThrottle = 0;
 }
 
 void UTankTrack::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit) {
 	DriveTrack();
-	//ApplySidewaysForce();
+	ApplySidewaysForce();
 }
 
 void UTankTrack::ApplySidewaysForce() {	
