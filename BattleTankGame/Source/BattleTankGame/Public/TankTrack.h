@@ -22,6 +22,10 @@ public:
 
 private:
 
+	void DriveTrack();
+
+	float CurrentThrottle = 0;
+
 	// max force per track in Newtons
 	UPROPERTY(EditDefaultsOnly)
 	float TrackMaxForce = 40000 * 2.7; // 2.7 m/s^2 acleration
@@ -29,7 +33,7 @@ private:
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor, UPrimitiveComponent * OtherComponent, FVector NormalImpulse, const FHitResult & Hit);
 
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction) override;
+	void ApplySidewaysForce();
 
 	virtual void BeginPlay() override;
 
