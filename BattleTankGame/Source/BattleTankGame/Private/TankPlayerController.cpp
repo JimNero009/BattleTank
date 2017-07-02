@@ -37,7 +37,7 @@ void ATankPlayerController::AimTowardsCrosshair() {
 	return;
 }
 
-bool ATankPlayerController::GetSightRayHitLocation(FVector& OUT OutHitLocation) const {
+bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) const {
 	// find the crosshair projection in pixel coords
 	int32 SizeXViewport, SizeYViewport;
 	GetViewportSize(OUT SizeXViewport, OUT SizeYViewport);
