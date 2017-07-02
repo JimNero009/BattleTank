@@ -39,9 +39,9 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) cons
 	// de-project it to a ws position
 	FVector RaycastDirection;
 	if (GetLookDirection(ScreenLocation, RaycastDirection)) {
-		GetLookVectorHitLocation(RaycastDirection, OUT OutHitLocation);
+		return GetLookVectorHitLocation(RaycastDirection, OUT OutHitLocation);
 	}
-	return true;
+	return false;
 }
 
 bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& RaycastDirection) const {
