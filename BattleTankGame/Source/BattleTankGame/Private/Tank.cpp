@@ -2,7 +2,6 @@
 
 #include "Tank.h"
 #include "TankAimingComponent.h"
-#include "TankMovementComponent.h"
 #include "Engine/World.h"
 #include "TankBarrel.h"
 #include "Projectile.h"
@@ -23,9 +22,8 @@ void ATank::BeginPlay() {
 }
 
 void ATank::AimAt(FVector OutHitLocation) {
-	if (TankAimingComponent) {
-		TankAimingComponent->AimAt(OutHitLocation, FireSpeed);
-	}
+	if (!ensure(TankAimingComponent)) { return; }
+	TankAimingComponent->AimAt(OutHitLocation, FireSpeed);
 	return;
 }
 
@@ -39,7 +37,7 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 void ATank::Fire() {
 	
 	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
-	if (!Barrel) { return; }
+	if (!ensure(Barrel)) { return; }
 	if (isReloaded) {
 		UE_LOG(LogTemp, Warning, TEXT("Tank firing!"));
 		//Spawn projectile at socket location

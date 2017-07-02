@@ -34,7 +34,7 @@ void ATankPlayerController::Tick(float DeltaTime) {
 
 // moves the tank's barrel towards crosshair s.t. a shot will hit where the crosshair aims
 void ATankPlayerController::AimTowardsCrosshair() {
-	if (!GetControlledTank()) { return; }
+	if (!ensure(GetControlledTank())) { return; }
 	FVector HitLocation; // Out paramter
 	if (GetSightRayHitLocation(OUT HitLocation)) { // has side effect, raytraces and sets the vector
 		GetControlledTank()->AimAt(HitLocation);
