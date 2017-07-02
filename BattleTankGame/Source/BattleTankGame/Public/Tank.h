@@ -6,7 +6,6 @@
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"
 
-class UTankAimingComponent;
 class UTankBarrel;
 class UTankTurret;
 class AProjectile;
@@ -20,8 +19,6 @@ public:
 	// Sets default values for this pawn's properties
 	ATank();
 
-	void AimAt(FVector);
-
 	UFUNCTION(BlueprintCallable)
 	void Fire();
 
@@ -29,16 +26,10 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 protected:
-	UPROPERTY(BlueprintReadOnly)
-	UTankAimingComponent* TankAimingComponent = nullptr;
 
 	virtual void BeginPlay() override;
 
 private:
-
-	// TODO remove this 
-	UPROPERTY(EditDefaultsOnly, Category = Firing)
-	float FireSpeed = 4000; // random guess, can be changed from BP editor TODO find sensible default
 
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	TSubclassOf<AProjectile> ProjectileBlueprint;

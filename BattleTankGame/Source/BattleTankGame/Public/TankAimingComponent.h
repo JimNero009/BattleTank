@@ -29,7 +29,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
 
-	void AimAt(FVector, float);
+	void AimAt(FVector);
 
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = State)
@@ -38,6 +38,10 @@ protected:
 private:
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	float FireSpeed = 4000; // random guess, can be changed from BP editor TODO find sensible default
+
 
 	void MoveBarrelTowards(FVector);
 

@@ -1,7 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Tank.h"
-#include "TankAimingComponent.h"
 #include "Engine/World.h"
 #include "TankBarrel.h"
 #include "Projectile.h"
@@ -20,15 +19,6 @@ ATank::ATank()
 
 void ATank::BeginPlay() {
 	Super::BeginPlay();
-	TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
-}
-
-void ATank::AimAt(FVector OutHitLocation) {
-
-	if (!ensure(TankAimingComponent)) { return; }
-	TankAimingComponent->AimAt(OutHitLocation, FireSpeed);
-	//UE_LOG(LogTemp, Warning, TEXT("AimAt called from Tank"));
-	return;
 }
 
 // Called to bind functionality to input
@@ -46,7 +36,7 @@ void ATank::Fire() {
 		UE_LOG(LogTemp, Warning, TEXT("Tank firing!"));
 		//Spawn projectile at socket location
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("FirePoint")), Barrel->GetSocketRotation(FName("FirePoint")));
-		Projectile->Launch(FireSpeed);
+		//Projectile->Launch(FireSpeed); // TODO fix
 		LastFireTime = FPlatformTime::Seconds();
 	}
 }

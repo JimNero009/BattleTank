@@ -2,26 +2,22 @@
 
 #include "TankPlayerController.h"
 #include "GameFramework/Controller.h"
-#include "Tank.h"
 #include "TankAimingComponent.h"
 #include "Engine/World.h"
 
 #define OUT
 
-ATank* ATankPlayerController::GetControlledTank() const { return  Cast<ATank>(GetPawn()); };
-
 void ATankPlayerController::BeginPlay() {
 	Super::BeginPlay();
-	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (AimingComponent) {
 		FoundAimingComponent(AimingComponent);
 	} else {
 		UE_LOG(LogTemp, Error, TEXT("No aiming component found!"));
 	}
 	UE_LOG(LogTemp, Warning, TEXT("Player controller - begin play"));
-	ATank* pPossessedTank = GetControlledTank();
-	if (pPossessedTank) {
-		UE_LOG(LogTemp, Warning, TEXT("Tank possessed - %s"), *pPossessedTank->GetName());
+	if (GetPawn()) {
+		UE_LOG(LogTemp, Warning, TEXT("Tank possessed - %s"), *GetPawn()->GetName());
 	} else {
 		UE_LOG(LogTemp, Warning, TEXT("Tank not possessed"));
 	}
@@ -34,10 +30,10 @@ void ATankPlayerController::Tick(float DeltaTime) {
 
 // moves the tank's barrel towards crosshair s.t. a shot will hit where the crosshair aims
 void ATankPlayerController::AimTowardsCrosshair() {
-	if (!ensure(GetControlledTank())) { return; }
+	if (!ensure(GetPawn())) { return; }
 	FVector HitLocation; // Out paramter
 	if (GetSightRayHitLocation(OUT HitLocation)) { // has side effect, raytraces and sets the vector
-		GetControlledTank()->AimAt(HitLocation);
+		GetPawn()->FindComponentByClass<UTankAimingComponent>()->AimAt(HitLocation);
 	// Get player's space location
 	// Move barrel towards 
 	}
