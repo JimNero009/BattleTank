@@ -71,7 +71,7 @@ void UTankAimingComponent::Fire() {
 
 EFiringStatus UTankAimingComponent::GetCurrentStatus() const { return CurrentState; }
 
-int UTankAimingComponent::GetRoundsLeft() const { return RoundsLeft; }
+int32 UTankAimingComponent::GetRoundsLeft() const { return RoundsLeft; }
 
 bool UTankAimingComponent::IsBarrelMoving() {
 	if (!ensure(Barrel)) { return false; }
