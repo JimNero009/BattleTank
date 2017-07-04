@@ -34,4 +34,9 @@ private:
 	float CrosshairYPosition = 0.33333;
 	UPROPERTY(EditAnywhere)
 	float LineTraceRange = 1000000.f;
+
+	virtual void SetPawn(APawn* InPawn) override;
+
+	UFUNCTION()
+	void OnPossessedTankDeath();
 };

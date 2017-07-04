@@ -15,6 +15,10 @@ private:
 
 	virtual void BeginPlay() override;
 	virtual void Tick(float) override;
-	
+	virtual void SetPawn(APawn* InPawn) override;
+
 	float AcceptanceRadius = 8000; // how close can the AI tank get to the player?
+
+	UFUNCTION()
+	void OnPossessedTankDeath();
 };
