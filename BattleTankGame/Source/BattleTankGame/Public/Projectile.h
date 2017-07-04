@@ -43,6 +43,8 @@ private:
 	UParticleSystemComponent* ImpactBlast = nullptr;
 	UPROPERTY(VisibleAnywhere)
 	URadialForceComponent* ExplosionForce = nullptr;
+	UPROPERTY(EditDefaultsOnly)
+	float ProjectileDamage = 20;
 
 
 	UFUNCTION()
