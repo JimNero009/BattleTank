@@ -16,3 +16,7 @@ float ATank::TakeDamage(float DamageAmount, FDamageEvent const & DamageEvent, AC
 	// if health is zero, kill tank
 	return DamageToApply;
 }
+
+float ATank::GetHealthPercent() const{
+	return (float)CurrentHealth/(float)StartingHealth;
+}
